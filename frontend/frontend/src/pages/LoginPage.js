@@ -3,6 +3,7 @@ import Input from '../components/Input';
 import { withTranslation } from 'react-i18next';
 import { login } from '../api/apiCalls';
 import ButtonWithProgress from '../components/ButtonWithProgress';
+import { withApiProgress } from '../shared/ApiProgress';
 
 class LoginPage extends Component {
     state = {
@@ -37,7 +38,7 @@ class LoginPage extends Component {
         }
     };
     render() {
-        const { t, pendinApiCall } = this.props;
+        const { t, pendingApiCall } = this.props;
         const { username, password, error } = this.state;
         const buttonEnabled = username && password;
 
@@ -51,8 +52,8 @@ class LoginPage extends Component {
                     <div className='text-center'>
                         <ButtonWithProgress
                             onClick={this.onClickLogin}
-                            disabled={!buttonEnabled || pendinApiCall}
-                            pendinApiCall={pendinApiCall}
+                            disabled={!buttonEnabled || pendingApiCall}
+                            pendingApiCall={pendingApiCall}
                             text={t('Login')}
                         />
                     </div>
@@ -61,4 +62,5 @@ class LoginPage extends Component {
         )
     }
 }
-export default withTranslation()(LoginPage);
+const LoginPageWithTranslation = withTranslation()(LoginPage);
+export default withApiProgress(LoginPageWithTranslation, '/api/1.0/auth');
